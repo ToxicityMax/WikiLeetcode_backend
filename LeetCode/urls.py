@@ -6,6 +6,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('', include('question.urls')),
-
 ]
 urlpatterns = format_suffix_patterns(urlpatterns)

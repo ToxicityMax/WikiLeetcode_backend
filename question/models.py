@@ -25,13 +25,13 @@ class Problem(models.Model):
         return self.problem_name
 
 
-class LCAuth(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    lc_user = models.CharField(max_length=64)
-    lc_pass = models.CharField(max_length=64)
-
-    def __str__(self):
-        return self.user.name + " Lc username: " + self.lc_user
+# class LCAuth(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     lc_user = models.CharField(max_length=64)
+#     lc_pass = models.CharField(max_length=64)
+#
+#     def __str__(self):
+#         return self.user.name + " Lc username: " + self.lc_user
 
 
 class Solution(models.Model):
@@ -39,6 +39,7 @@ class Solution(models.Model):
     # LCuser = models.ForeignKey(LCAuth, on_delete=models.CASCADE, blank=True, null=True)
     problem = models.OneToOneField(Problem, on_delete=models.CASCADE, default="")
     solution = models.TextField()
+    language = models.CharField(max_length=12, null=True, blank=False)
 
     def __str__(self):
         return self.user.username + " Q: " + self.problem.problem_name

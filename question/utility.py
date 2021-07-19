@@ -38,15 +38,22 @@ def createProblem(slug):
 def getProblemsSortedByTopics():
     problems = Problem.objects.all()
     topics = []
-    result = {}
+    result = []
     for problem in problems:
+        print(problem.problem_name)
         topics.append(problem.topic)
-    for topic in topics:
-        problem = Problem.objects.filter(topic=topic)
+    for i in range(len(topics)):
+        node={}
+        node['id']=i
+        node['name'] = topics[i]
+        #result['name'] = topic
+        problem = Problem.objects.filter(topic=topics[i])
         problemS = ProblemSerializer(problem, many=True)
-        result[topic] = problemS.data
+        node['children'] = problemS.data
+        #result[topic] = problemS.data
+        #result['children'] = problemS.data
+        result.append(node)
     return result
-
 
 def getProblemSortedbyDifficulty():
     difficulty: list = ['Easy', 'Medium', 'Hard']
