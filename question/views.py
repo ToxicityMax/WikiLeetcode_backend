@@ -10,8 +10,8 @@ from .utility import *
 
 
 @api_view(['GET', 'POST'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
-@permission_classes([IsAuthenticated])
+#@authentication_classes([SessionAuthentication, BasicAuthentication])
+#@permission_classes([IsAuthenticated])
 def getProblems(request, format=None):
     if request.method == 'GET':
         problems = Problem.objects.all()
@@ -28,8 +28,8 @@ def getProblems(request, format=None):
 
 
 @api_view(['GET'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
-@permission_classes([IsAuthenticated])
+#@authentication_classes([SessionAuthentication, BasicAuthentication])
+#@permission_classes([IsAuthenticated])
 def getProblem(request, slug, format=None):
     try:
         problem = Problem.objects.get(problem_slug=slug)
@@ -41,28 +41,38 @@ def getProblem(request, slug, format=None):
 
 
 @api_view(['POST', 'GET'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
-@permission_classes([IsAuthenticated])
+#@authentication_classes([SessionAuthentication, BasicAuthentication])
+#@permission_classes([IsAuthenticated])
 def setSolution(request, format=None):
     if request.method == 'POST':
-        slug = request.data["problem"]["problem_slug"]
+        slug = request.data["problem_slug"]
         try:
             problem = Problem.objects.get(problem_slug=slug)
         except Problem.DoesNotExist:
             problem = createProblem(slug)
-        solution = Solution(problem=problem, user=request.user, solution=request.data["solution"])
+        user = User.objects.get(username='nineyearold') #temperory
+        try:
+            solution = Solution.objects.get(problem=problem)
+            solution.language = request.data["language"]
+            solution.solution = request.data["solution"]
+        except:
+            solution = Solution(problem=problem, user=user, solution=request.data["solution"],language=request.data["language"])
         solution.save()
         solution = SolutionSerializer(solution)
         return Response(solution.data, status=status.HTTP_201_CREATED)
     else:
-        solutions = Solution.objects.filter(user=request.user)
+        #temp
+        user = User.objects.get(username='nineyearold')
+        #temp
+
+        solutions = Solution.objects.filter(user=user)
         solution = SolutionSerializer(solutions, many=True)
         return Response(solution.data)
 
 
 @api_view(['PUT'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
-@permission_classes([IsAuthenticated])
+#@authentication_classes([SessionAuthentication, BasicAuthentication])
+#@permission_classes([IsAuthenticated])
 def updateSolution(request, format=None):
     slug = request.data["problem"]["problem_slug"]
     problem = Problem.objects.get(problem_slug=slug)
@@ -74,8 +84,8 @@ def updateSolution(request, format=None):
 
 
 @api_view(['GET', 'POST'])
-@authentication_classes([SessionAuthentication, BasicAuthentication])
-@permission_classes([IsAuthenticated])
+#@authentication_classes([SessionAuthentication, BasicAuthentication])
+#@permission_classes([IsAuthenticated])
 def getProblemsSorted(request, format=None):
     if request.method == 'POST':
         if request.POST['q'] == 'topic':

@@ -10,15 +10,25 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ProblemSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(source='problem_name')
+
     class Meta:
         model = Problem
-        fields = ['id', 'problem_name', 'problem_slug', 'difficulty', 'topic', 'related_topics', 'markdown']
+        fields = ['id', 'name', 'problem_slug', 'difficulty', 'topic', 'related_topics', 'markdown']
+
+
+class ProblemShortSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(source='problem_name')
+
+    class Meta:
+        model = Problem
+        fields = ['id', 'name', 'difficulty']
 
 
 class SolutionSerializer(serializers.ModelSerializer):
     problem = ProblemSerializer()
-    user = UserSerializer()
+    #user = UserSerializer()
 
     class Meta:
         model = Solution
-        fields = ['id', 'user', 'problem', 'solution']
+        fields = ['id', 'problem', 'language', 'solution']

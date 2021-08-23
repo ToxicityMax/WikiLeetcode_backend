@@ -6,7 +6,6 @@ from .serializers import *
 
 URL = "https://leetcode.com/graphql"
 
-
 def createProblem(slug):
     import markdownify as md
     payload = {
@@ -40,26 +39,26 @@ def getProblemsSortedByTopics():
     topics = []
     result = []
     for problem in problems:
-        print(problem.problem_name)
-        topics.append(problem.topic)
+        t = problem.topic
+        if t not in topics:
+            topics.append(problem.topic)
     for i in range(len(topics)):
-        node={}
-        node['id']=i
-        node['name'] = topics[i]
-        #result['name'] = topic
+        node = {'name': topics[i]}
         problem = Problem.objects.filter(topic=topics[i])
-        problemS = ProblemSerializer(problem, many=True)
+        problemS = ProblemShortSerializer(problem, many=True)
         node['children'] = problemS.data
-        #result[topic] = problemS.data
-        #result['children'] = problemS.data
         result.append(node)
     return result
 
+
 def getProblemSortedbyDifficulty():
     difficulty: list = ['Easy', 'Medium', 'Hard']
-    result = {}
+    result = []
     for i in difficulty:
         problem = Problem.objects.filter(difficulty=i)
-        problemS = ProblemSerializer(problem, many=True)
-        result[i] = problemS.data
+        if problem:
+            node = {'name': i}
+            problemS = ProblemShortSerializer(problem, many=True)
+            node['children'] = problemS.data
+            result.append(node)
     return result

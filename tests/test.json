@@ -1,0 +1,99 @@
+{
+    "codeSnippets": [{
+            "lang": "C++",
+            "langSlug": "cpp",
+            "code": "class Solution {\npublic:\n    int myAtoi(string s) {\n        \n    }\n};",
+            "__typename": "CodeSnippetNode"
+        },
+        {
+            "lang": "Java",
+            "langSlug": "java",
+            "code": "class Solution {\n    public int myAtoi(String s) {\n        \n    }\n}",
+            "__typename": "CodeSnippetNode"
+        },
+        {
+            "lang": "Python",
+            "langSlug": "python",
+            "code": "class Solution(object):\n    def myAtoi(self, s):\n        \"\"\"\n        :type s: str\n        :rtype: int\n        \"\"\"\n        ",
+            "__typename": "CodeSnippetNode"
+        },
+        {
+            "lang": "Python3",
+            "langSlug": "python3",
+            "code": "class Solution:\n    def myAtoi(self, s: str) -> int:\n        ",
+            "__typename": "CodeSnippetNode"
+        },
+        {
+            "lang": "C",
+            "langSlug": "c",
+            "code": "\n\nint myAtoi(char * s){\n\n}",
+            "__typename": "CodeSnippetNode"
+        },
+        {
+            "lang": "C#",
+            "langSlug": "csharp",
+            "code": "public class Solution {\n    public int MyAtoi(string s) {\n        \n    }\n}",
+            "__typename": "CodeSnippetNode"
+        },
+        {
+            "lang": "JavaScript",
+            "langSlug": "javascript",
+            "code": "/**\n * @param {string} s\n * @return {number}\n */\nvar myAtoi = function(s) {\n    \n};",
+            "__typename": "CodeSnippetNode"
+        },
+        {
+            "lang": "Ruby",
+            "langSlug": "ruby",
+            "code": "# @param {String} s\n# @return {Integer}\ndef my_atoi(s)\n    \nend",
+            "__typename": "CodeSnippetNode"
+        },
+        {
+            "lang": "Swift",
+            "langSlug": "swift",
+            "code": "class Solution {\n    func myAtoi(_ s: String) -> Int {\n        \n    }\n}",
+            "__typename": "CodeSnippetNode"
+        },
+        {
+            "lang": "Go",
+            "langSlug": "golang",
+            "code": "func myAtoi(s string) int {\n    \n}",
+            "__typename": "CodeSnippetNode"
+        },
+        {
+            "lang": "Scala",
+            "langSlug": "scala",
+            "code": "object Solution {\n    def myAtoi(s: String): Int = {\n        \n    }\n}",
+            "__typename": "CodeSnippetNode"
+        },
+        {
+            "lang": "Kotlin",
+            "langSlug": "kotlin",
+            "code": "class Solution {\n    fun myAtoi(s: String): Int {\n        \n    }\n}",
+            "__typename": "CodeSnippetNode"
+        },
+        {
+            "lang": "Rust",
+            "langSlug": "rust",
+            "code": "impl Solution {\n    pub fn my_atoi(s: String) -> i32 {\n        \n    }\n}",
+            "__typename": "CodeSnippetNode"
+        },
+        {
+            "lang": "PHP",
+            "langSlug": "php",
+            "code": "class Solution {\n\n    /**\n     * @param String $s\n     * @return Integer\n     */\n    function myAtoi($s) {\n        \n    }\n}",
+            "__typename": "CodeSnippetNode"
+        },
+        {
+            "lang": "TypeScript",
+            "langSlug": "typescript",
+            "code": "function myAtoi(s: string): number {\n\n};",
+            "__typename": "CodeSnippetNode"
+        },
+        {
+            "lang": "Racket",
+            "langSlug": "racket",
+            "code": "(define/contract (my-atoi s)\n  (-> string? exact-integer?)\n\n  )",
+            "__typename": "CodeSnippetNode"
+        }
+    ]
+}
