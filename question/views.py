@@ -1,10 +1,11 @@
 from django.db import IntegrityError
 from django.middleware.csrf import get_token
 from rest_framework import status
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.authentication import TokenAuthentication, BasicAuthentication
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.authtoken.models import Token
 
 from .utility import *
 
@@ -45,6 +46,7 @@ def getProblem(request, slug, format=None):
 #@permission_classes([IsAuthenticated])
 def setSolution(request, format=None):
     if request.method == 'POST':
+        print(request.META)
         slug = request.data["problem_slug"]
         try:
             problem = Problem.objects.get(problem_slug=slug)
@@ -84,7 +86,7 @@ def updateSolution(request, format=None):
 
 
 @api_view(['GET', 'POST'])
-#@authentication_classes([SessionAuthentication, BasicAuthentication])
+#@authentication_classes([TokenAuthentication, BasicAuthentication])
 #@permission_classes([IsAuthenticated])
 def getProblemsSorted(request, format=None):
     if request.method == 'POST':
@@ -114,24 +116,30 @@ def signup(request):
     return Response(user.data, status.HTTP_201_CREATED)
 
 
-@api_view(['POST', 'GET'])
+@api_view(['POST'])
 def login(request):
     if request.method == 'POST':
         username = request.data['username']
         from django.contrib.auth import authenticate, login
         user = authenticate(request, username=username, password=request.data['password'])
         if user is None:
-            return Response({'error': 'No user with that username'}, status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Invalid username'}, status.HTTP_400_BAD_REQUEST)
+        token = Token.objects.get(user=user)
         login(request, user)
-        return Response({'message': 'Login Successful'}, status.HTTP_200_OK)
-    else:
-        get_token(request)
-        return Response()
+        print(request.user)
+        return Response({
+            'token':token.key,
+            'user_id': user.pk,
+            'username': user.username,
+            #'password':request.data['password']
+            }, status.HTTP_200_OK)
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 def logout(request):
     from django.contrib.auth import logout
+    print(request.META)
+    print(request.user)
+    request.user.auth_token.delete()
     logout(request)
-    request.session.delete()
-    return Response(status.HTTP_200_OK)
+    return Response('User Logged out successfully')
