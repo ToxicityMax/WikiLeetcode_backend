@@ -7,7 +7,6 @@ urlpatterns = [
     path('problem/sorted', getProblemsSorted),
     path('update/', updateSolution),
     path('solution/', solution),
-
     #AUTH
     path('signup/', signup),
     path('login/', login),
