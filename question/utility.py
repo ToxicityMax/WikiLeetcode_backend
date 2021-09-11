@@ -34,18 +34,24 @@ def createProblem(slug):
     return problem
 
 
-def getProblemsSortedByTopics():
-    problems = Problem.objects.all()
+def getProblemsSortedByTopics(user:User):
     topics = []
+    problems = []
     result = []
+    solution = Solution.objects.filter(user=user)
+    for i in solution:
+        problems.append(i.problem)
     for problem in problems:
         t = problem.topic
         if t not in topics:
             topics.append(problem.topic)
     for i in range(len(topics)):
         node = {'name': topics[i]}
-        problem = Problem.objects.filter(topic=topics[i])
-        problemS = ProblemShortSerializer(problem, many=True)
+        problem = Solution.objects.filter(user=user,problem__topic=topics[i])
+        problems =[]
+        for p in problem:
+            problems.append(p.problem)
+        problemS = ProblemShortSerializer(problems, many=True)
         node['children'] = problemS.data
         result.append(node)
     return result
