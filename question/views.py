@@ -146,4 +146,4 @@ def logout(request):
     from django.contrib.auth import logout
     request.user.auth_token.delete()
     logout(request)
-    return Response('User Logged out successfully')
+    return Response('User Logged out successfully!!')
