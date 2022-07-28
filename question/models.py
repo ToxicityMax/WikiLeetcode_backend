@@ -16,7 +16,7 @@ langSlug = ['cpp', 'java', 'python', 'python3', 'c', 'csharp', 'javascript', 'ru
 
 class Problem(models.Model):
     problem_name = models.CharField(max_length=64, null=True, blank=True, unique=True)
-    problem_slug = models.SlugField(max_length=64, null=True, blank=True, unique=True)
+    problem_slug = models.SlugField(max_length=64, null=True, blank=True, unique=True,db_index=True)
     difficulty = models.CharField(max_length=4, choices=difficulty, default='NULL')
     topic = models.CharField(max_length=24, null=True, blank=True)
     related_topics = models.JSONField(null=True, blank=True)
@@ -26,21 +26,18 @@ class Problem(models.Model):
         return self.problem_name
 
 
-# class LCAuth(models.Model):
-#     user = models.OneToOneField(User, on_delete=models.CASCADE)
-#     lc_user = models.CharField(max_length=64)
-#     lc_pass = models.CharField(max_length=64)
-#
-#     def __str__(self):
-#         return self.user.name + " Lc username: " + self.lc_user
-
-
 class Solution(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     # LCuser = models.ForeignKey(LCAuth, on_delete=models.CASCADE, blank=True, null=True)
-    problem = models.OneToOneField(Problem, on_delete=models.CASCADE, default="")
+    problem = models.ForeignKey(Problem, on_delete=models.CASCADE,blank=True, null=True)
     solution = models.TextField()
     language = models.CharField(max_length=12, null=True, blank=False)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['user', 'problem']),
+            models.Index(fields=['problem']),
+        ]
 
     def __str__(self):
         return self.user.username + " Q: " + self.problem.problem_name

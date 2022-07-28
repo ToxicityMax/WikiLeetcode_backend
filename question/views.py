@@ -77,6 +77,8 @@ def solution(request, format=None):
 @permission_classes([IsAuthenticated])
 def updateSolution(request, format=None):
     slug = request.data["problem_slug"]
+    print(slug)
+    print(request.user)
     solution = Solution.objects.get(user=request.user, problem__problem_slug=slug)
     solution.solution = request.data["solution"]
     solution.save()
